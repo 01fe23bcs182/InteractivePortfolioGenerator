@@ -62,10 +62,7 @@
     <label for="edu-cgpa">CGPA</label>
     <input type="text" id="edu-cgpa" placeholder="e.g., 8.7 / 10">
   </div>
-</div>
-
-
-        
+</div>       
 
         <section>
           <h2>Contact</h2>
@@ -76,7 +73,7 @@
           <label>GitHub URL</label>
           <input type="url" id="github" placeholder="https://github.com/username" />
           <label>Phone</label>
-          <input type="tel" id="phone" placeholder="+1 555-1234" />
+          <input type="tel" id="phone" placeholder="9632958932" />
         </section>
 
         <button type="submit" class="generate-btn">Generate Portfolio</button>
@@ -129,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       console.log("Download button clicked ✅");
 
-      // ✅ Access jsPDF correctly from UMD
+     
       const { jsPDF } = window.jspdf;
       if (!jsPDF) {
         throw new Error("jsPDF not loaded properly.");
@@ -176,3 +173,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
