@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Generator</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- External libraries for PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNa5KIGd2vJ1mONdhlT0E2k0k1r7KGm+7DGD8aFjCkUe5tN0L6Vb6QZKqv7uQ8w6W1oQq6xC6x+2h0V2i3X3Xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-Ywq2Q8XGg76mH+vKci2yF2st6sRsmW1q3z7g7uT6Zkq0y0YtQ0D2QGQh5d2Y2r9xFCLG7I6mDqV1yP7U3Z5z8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Input Panel -->
+    <aside class="sidebar">
+      <h1>Portfolio Generator</h1>
+      <form id="portfolio-form">
+        <section>
+          <h2>Personal Info</h2>
+          <label>Full Name</label>
+          <input type="text" id="full-name" placeholder="John Doe" required />
+          <label>Job Title</label>
+          <input type="text" id="job-title" placeholder="Frontend Developer" required />
+          <label>About Me</label>
+          <textarea id="about-me" placeholder="Short description..." rows="4" required></textarea>
+          <label>Profile Image URL</label>
+          <input type="url" id="profile-image" placeholder="https://example.com/image.jpg" />
+        </section>
+
+        <section>
+          <h2>Skills</h2>
+          <div class="skill-input-group">
+            <input type="text" id="skill-input" placeholder="e.g. JavaScript" />
+            <button type="button" id="add-skill-btn">Add Skill</button>
+          </div>
+          <div id="skills-list" class="skills-list"></div>
+        </section>
+
+        <section>
+          <h2>Projects</h2>
+          <div id="projects-container">
+            <!-- Project Template will be cloned -->
+          </div>
+          <button type="button" id="add-project-btn" class="secondary-btn">Add Project</button>
+        </section>
+        
+       <div class="form-section">
+  <h2>Education</h2>
+  <div class="form-group">
+    <label for="edu-degree">Degree</label>
+    <input type="text" id="edu-degree" placeholder="e.g., B.Sc Computer Science">
+  </div>
+  <div class="form-group">
+    <label for="edu-institution">Institution</label>
+    <input type="text" id="edu-institution" placeholder="e.g., MIT">
+  </div>
+  <div class="form-group">
+    <label for="edu-year">Year</label>
+    <input type="text" id="edu-year" placeholder="e.g., 2019 - 2023">
+  </div>
+  <div class="form-group">
+    <label for="edu-cgpa">CGPA</label>
+    <input type="text" id="edu-cgpa" placeholder="e.g., 8.7 / 10">
+  </div>
+</div>
+
+
+        
+
+        <section>
+          <h2>Contact</h2>
+          <label>Email</label>
+          <input type="email" id="email" placeholder="email@example.com" required />
+          <label>LinkedIn URL</label>
+          <input type="url" id="linkedin" placeholder="https://linkedin.com/in/username" />
+          <label>GitHub URL</label>
+          <input type="url" id="github" placeholder="https://github.com/username" />
+          <label>Phone</label>
+          <input type="tel" id="phone" placeholder="+1 555-1234" />
+        </section>
+
+        <button type="submit" class="generate-btn">Generate Portfolio</button>
+      </form>
+
+      <div class="download-buttons">
+        <button id="download-pdf" class="secondary-btn">Download PDF</button>
+        <button id="copy-html" class="secondary-btn">Copy HTML</button>
+        <button id="copy-css" class="secondary-btn">Copy CSS</button>
+        <button id="copy-js" class="secondary-btn">Copy JS</button>
+      </div>
+    </aside>
+
+    <!-- Live Preview Panel -->
+    <main class="preview-panel">
+      <h2>Live Preview</h2>
+      <div id="live-preview" class="live-preview">
+        <p>Portfolio will appear here...</p>
+      </div>
+    </main>
+  </div>
+
+  <template id="project-template">
+    <div class="project-form">
+      <label>Project Name</label>
+      <input type="text" class="project-name" placeholder="Project Name" required />
+      <label>Project Description</label>
+      <textarea class="project-desc" rows="3" placeholder="Description" required></textarea>
+      <label>Project Image URL</label>
+      <input type="url" class="project-image" placeholder="https://example.com/image.jpg" />
+      <label>Project URL</label>
+      <input type="url" class="project-url" placeholder="https://example.com" />
+      <button type="button" class="remove-project-btn secondary-btn">Remove Project</button>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+
+
+  <!-- Required Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const downloadBtn = document.getElementById("download-pdf-btn");
+  const preview = document.getElementById("live-portfolio-preview");
+
+  downloadBtn.addEventListener("click", async () => {
+    try {
+      console.log("Download button clicked ✅");
+
+      // ✅ Access jsPDF correctly from UMD
+      const { jsPDF } = window.jspdf;
+      if (!jsPDF) {
+        throw new Error("jsPDF not loaded properly.");
+      }
+
+      if (!preview) {
+        throw new Error("#live-portfolio-preview element not found.");
+      }
+
+      // Convert preview to canvas
+      const canvas = await html2canvas(preview, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+
+      // Generate PDF
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      let position = 0;
+      let heightLeft = imgHeight;
+
+      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      pdf.save("portfolio.pdf");
+      console.log("✅ PDF saved successfully!");
+    } catch (err) {
+      console.error("❌ PDF generation failed:", err);
+      alert("PDF generation failed. Check console for details.");
+    }
+  });
+});
+</script>
+
+</body>
+</html>
