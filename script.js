@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyHTMLBtn = document.getElementById('copy-html');
   const profileInput = document.getElementById('profile-image');
 
-  // ✅ Fix for profile image upload
-  let uploadedProfileImage = ""; 
+  // ✅ store uploaded profile image as base64
+  let uploadedProfileImage = "";
   profileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        uploadedProfileImage = e.target.result; // store base64
-        updatePreview(); // refresh preview
+        uploadedProfileImage = e.target.result; // keep base64 string
+        updatePreview(); // re-render preview with new image
       };
       reader.readAsDataURL(file);
     }
@@ -89,13 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
         name:document.getElementById('full-name').value,
         title:document.getElementById('job-title').value,
         about:document.getElementById('about-me').value,
-        image: uploadedProfileImage || 
-               document.getElementById('profile-image').value || 
-               'https://via.placeholder.com/150'
+        // ✅ always prefer uploadedProfileImage if available
+        image: uploadedProfileImage || 'https://via.placeholder.com/150'
       },
       skills:skills,
       projects:projects,
-      education:{   // New Education section
+      education:{
         degree:document.getElementById('edu-degree').value,
         institution:document.getElementById('edu-institution').value,
         year:document.getElementById('edu-year').value,
