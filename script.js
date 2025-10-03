@@ -26,7 +26,28 @@ document.addEventListener('DOMContentLoaded', () => {
       reader.readAsDataURL(file);
     }
   });
+// Store uploaded images (projectId => base64 string)
+let uploadedProjectImages = {};
 
+// Handle project image upload
+projectsContainer.addEventListener('change', (e) => {
+  if (e.target.classList.contains('project-image-file')) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        // Use parent form index as key
+        const projectForm = e.target.closest('.project-form');
+        const index = [...projectsContainer.querySelectorAll('.project-form')].indexOf(projectForm);
+        uploadedProjectImages[index] = ev.target.result;
+        updatePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+});
+
+  
   let skills = [];
 
   // Add Skill
@@ -80,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       projects.push({
         name:p.querySelector('.project-name').value,
         desc:p.querySelector('.project-desc').value,
-        image:p.querySelector('.project-image').value,
+       image: uploadedProjectImages[i] || p.querySelector('.project-image-url')?.value || "",
         url:p.querySelector('.project-url').value
       });
     });
@@ -180,3 +201,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updatePreview();
 });
+
