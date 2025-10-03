@@ -39,30 +39,29 @@
         <section>
           <h2>Projects</h2>
           <div id="projects-container">
-            <!-- Project Template will be cloned -->
           </div>
           <button type="button" id="add-project-btn" class="secondary-btn">Add Project</button>
         </section>
         
        <div class="form-section">
-  <h2>Education</h2>
-  <div class="form-group">
-    <label for="edu-degree">Degree</label>
-    <input type="text" id="edu-degree" placeholder="e.g., B.Sc Computer Science">
-  </div>
-  <div class="form-group">
-    <label for="edu-institution">Institution</label>
-    <input type="text" id="edu-institution" placeholder="e.g., MIT">
-  </div>
-  <div class="form-group">
-    <label for="edu-year">Year</label>
-    <input type="text" id="edu-year" placeholder="e.g., 2019 - 2023">
-  </div>
-  <div class="form-group">
-    <label for="edu-cgpa">CGPA</label>
-    <input type="text" id="edu-cgpa" placeholder="e.g., 8.7 / 10">
-  </div>
-</div>       
+           <h2>Education</h2>
+          <div class="form-group">
+             <label for="edu-degree">Degree</label>
+             <input type="text" id="edu-degree" placeholder="e.g., B.Sc Computer Science">
+           </div>
+           <div class="form-group">
+           <label for="edu-institution">Institution</label>
+           <input type="text" id="edu-institution" placeholder="e.g., MIT">
+           </div>
+           <div class="form-group">
+           <label for="edu-year">Year</label>
+           <input type="text" id="edu-year" placeholder="e.g., 2019 - 2023">
+           </div>
+           <div class="form-group">
+           <label for="edu-cgpa">CGPA</label>
+           <input type="text" id="edu-cgpa" placeholder="e.g., 8.7 / 10">
+           </div>
+           </div>
 
         <section>
           <h2>Contact</h2>
@@ -124,9 +123,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   downloadBtn.addEventListener("click", async () => {
     try {
-      console.log("Download button clicked ✅");
+      console.log("Download button clicked ");
 
-     
+      //  Access jsPDF correctly from UMD
       const { jsPDF } = window.jspdf;
       if (!jsPDF) {
         throw new Error("jsPDF not loaded properly.");
@@ -173,5 +172,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
-
-
