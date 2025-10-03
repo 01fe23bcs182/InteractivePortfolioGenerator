@@ -13,21 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyHTMLBtn = document.getElementById('copy-html');
   const profileInput = document.getElementById('profile-image');
 
-profileInput.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      // Update preview immediately
-      const imgTag = document.querySelector('.profile-img');
-      if (imgTag) {
-        imgTag.src = e.target.result;
-      }
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
+  // ✅ Fix for profile image upload
+  let uploadedProfileImage = ""; 
+  profileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedProfileImage = e.target.result; // store base64
+        updatePreview(); // refresh preview
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
   let skills = [];
 
@@ -91,7 +89,9 @@ profileInput.addEventListener('change', (event) => {
         name:document.getElementById('full-name').value,
         title:document.getElementById('job-title').value,
         about:document.getElementById('about-me').value,
-        image:document.getElementById('profile-image').value||'https://via.placeholder.com/150'
+        image: uploadedProfileImage || 
+               document.getElementById('profile-image').value || 
+               'https://via.placeholder.com/150'
       },
       skills:skills,
       projects:projects,
@@ -181,4 +181,3 @@ profileInput.addEventListener('change', (event) => {
 
   updatePreview();
 });
-
