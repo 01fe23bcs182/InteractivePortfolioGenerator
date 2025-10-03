@@ -27,28 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-
-   // Store uploaded images (projectId => base64 string)
-let uploadedProjectImages = {};
-
-// Handle project image upload
-projectsContainer.addEventListener('change', (e) => {
-  if (e.target.classList.contains('project-image-file')) {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        // Use parent form index as key
-        const projectForm = e.target.closest('.project-form');
-        const index = [...projectsContainer.querySelectorAll('.project-form')].indexOf(projectForm);
-        uploadedProjectImages[index] = ev.target.result;
-        updatePreview();
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-});
-
   
   let skills = [];
 
@@ -205,5 +183,6 @@ projectsContainer.addEventListener('change', (e) => {
 
   updatePreview();
 });
+
 
 
