@@ -56,9 +56,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Add Project
+  // ✅ Add Project (fixed image upload handling)
   addProjectBtn.addEventListener('click', ()=>{
     const clone=projectTemplate.content.cloneNode(true);
+    const projectForm = clone.querySelector('.project-form');
+
+    // handle project image upload
+    const projectImageInput = projectForm.querySelector('.project-image');
+    projectImageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          projectForm.dataset.image = ev.target.result; // save base64
+          updatePreview();
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
     projectsContainer.appendChild(clone);
     updatePreview();
   });
@@ -73,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('input', updatePreview);
 
+  // ✅ Updated getData to pull project images from dataset
   function getData(){
     const projectForms = projectsContainer.querySelectorAll('.project-form');
     const projects = [];
@@ -80,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
       projects.push({
         name:p.querySelector('.project-name').value,
         desc:p.querySelector('.project-desc').value,
-        image:p.querySelector('.project-image').value,
+        image:p.dataset.image || "",   // use stored base64 instead of .value
         url:p.querySelector('.project-url').value
       });
     });
