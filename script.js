@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyHTMLBtn = document.getElementById('copy-html');
   const profileInput = document.getElementById('profile-image');
 
-  // ✅ Fix for profile image upload
+  // ✅ Profile image upload
   let uploadedProfileImage = ""; 
   profileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         uploadedProfileImage = e.target.result; // store base64
-        updatePreview(); // refresh preview
+        updatePreview(); 
       };
       reader.readAsDataURL(file);
     }
@@ -56,19 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ✅ Add Project (fixed image upload handling)
+  // ✅ Add Project with working image upload
   addProjectBtn.addEventListener('click', ()=>{
     const clone=projectTemplate.content.cloneNode(true);
     const projectForm = clone.querySelector('.project-form');
 
-    // handle project image upload
+    // Handle image upload
     const projectImageInput = projectForm.querySelector('.project-image');
     projectImageInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (ev) => {
-          projectForm.dataset.image = ev.target.result; // save base64
+          projectForm.dataset.image = ev.target.result; // base64 stored in dataset
           updatePreview();
         };
         reader.readAsDataURL(file);
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('input', updatePreview);
 
-  // ✅ Updated getData to pull project images from dataset
+  // ✅ Updated getData
   function getData(){
     const projectForms = projectsContainer.querySelectorAll('.project-form');
     const projects = [];
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
       projects.push({
         name:p.querySelector('.project-name').value,
         desc:p.querySelector('.project-desc').value,
-        image:p.dataset.image || "",   // use stored base64 instead of .value
+        image:p.dataset.image || "",   // use stored base64
         url:p.querySelector('.project-url').value
       });
     });
@@ -106,13 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
         name:document.getElementById('full-name').value,
         title:document.getElementById('job-title').value,
         about:document.getElementById('about-me').value,
-        image: uploadedProfileImage || 
-               document.getElementById('profile-image').value || 
-               'https://via.placeholder.com/150'
+        image: uploadedProfileImage || 'https://via.placeholder.com/150'
       },
       skills:skills,
       projects:projects,
-      education:{   // New Education section
+      education:{   
         degree:document.getElementById('edu-degree').value,
         institution:document.getElementById('edu-institution').value,
         year:document.getElementById('edu-year').value,
@@ -148,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="projects-grid">
             ${data.projects.map(p=>`
               <div class="project-card">
-                ${p.image?`<img src="${p.image}"/>`:''}
+                ${p.image?`<img src="${p.image}" alt="Project Image"/>`:''}
                 <h3>${p.name}</h3>
                 <p>${p.desc}</p>
                 ${p.url?`<a href="${p.url}" target="_blank">View</a>`:''}
