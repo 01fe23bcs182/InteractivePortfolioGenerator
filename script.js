@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  
   let skills = [];
 
   // Add Skill
@@ -64,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePreview();
   });
 
-
   projectsContainer.addEventListener('input', updatePreview);
   projectsContainer.addEventListener('click', e=>{
     if(e.target.classList.contains('remove-project-btn')){
@@ -75,42 +73,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('input', updatePreview);
 
- function getData(){
-  const projectForms = projectsContainer.querySelectorAll('.project-form');
-  const projects = [];
-  projectForms.forEach((p, i) => {
-    projects.push({
-      name: p.querySelector('.project-name').value,
-      desc: p.querySelector('.project-desc').value,
-      // ✅ Use uploaded base64 image if present
-      image: uploadedProjectImages[i] || p.querySelector('.project-image-url')?.value || "",
-      url: p.querySelector('.project-url').value
+  function getData(){
+    const projectForms = projectsContainer.querySelectorAll('.project-form');
+    const projects = [];
+    projectForms.forEach(p=>{
+      projects.push({
+        name:p.querySelector('.project-name').value,
+        desc:p.querySelector('.project-desc').value,
+        image:p.querySelector('.project-image').value,
+        url:p.querySelector('.project-url').value
+      });
     });
-  });
-  return {
-    personal: {
-      name: document.getElementById('full-name').value,
-      title: document.getElementById('job-title').value,
-      about: document.getElementById('about-me').value,
-      image: uploadedProfileImage || 'https://via.placeholder.com/150'
-    },
-    skills: skills,
-    projects: projects,
-    education: {
-      degree: document.getElementById('edu-degree').value,
-      institution: document.getElementById('edu-institution').value,
-      year: document.getElementById('edu-year').value,
-      cgpa: document.getElementById('edu-cgpa').value
-    },
-    contact: {
-      email: document.getElementById('email').value,
-      linkedin: document.getElementById('linkedin').value,
-      github: document.getElementById('github').value,
-      phone: document.getElementById('phone').value
-    }
-  };
-}
-
+    return {
+      personal:{
+        name:document.getElementById('full-name').value,
+        title:document.getElementById('job-title').value,
+        about:document.getElementById('about-me').value,
+        // ✅ always prefer uploadedProfileImage if available
+        image: uploadedProfileImage || 'https://via.placeholder.com/150'
+      },
+      skills:skills,
+      projects:projects,
+      education:{
+        degree:document.getElementById('edu-degree').value,
+        institution:document.getElementById('edu-institution').value,
+        year:document.getElementById('edu-year').value,
+        cgpa:document.getElementById('edu-cgpa').value
+      },
+      contact:{
+        email:document.getElementById('email').value,
+        linkedin:document.getElementById('linkedin').value,
+        github:document.getElementById('github').value,
+        phone:document.getElementById('phone').value
+      }
+    };
+  }
 
   function updatePreview(){
     const data=getData();
@@ -183,6 +180,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updatePreview();
 });
-
-
-
