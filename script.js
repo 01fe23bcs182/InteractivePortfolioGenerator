@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyHTMLBtn = document.getElementById('copy-html');
   const profileInput = document.getElementById('profile-image');
 
-  // ✅ Profile image upload
+ 
   let uploadedProfileImage = ""; 
   profileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
@@ -56,12 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ✅ Add Project with working image upload
   addProjectBtn.addEventListener('click', ()=>{
     const clone=projectTemplate.content.cloneNode(true);
     const projectForm = clone.querySelector('.project-form');
 
-    // Handle image upload
     const projectImageInput = projectForm.querySelector('.project-image');
     projectImageInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
@@ -89,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('input', updatePreview);
 
-  // ✅ Updated getData
   function getData(){
     const projectForms = projectsContainer.querySelectorAll('.project-form');
     const projects = [];
@@ -196,3 +193,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updatePreview();
 });
+
