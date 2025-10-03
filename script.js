@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       skills:skills,
       projects:projects,
-      education:{   // 🔹 New Education section
+      education:{   // New Education section
         degree:document.getElementById('edu-degree').value,
         institution:document.getElementById('edu-institution').value,
         year:document.getElementById('edu-year').value,
