@@ -11,6 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const downloadPDFBtn = document.getElementById('download-pdf');
   const copyHTMLBtn = document.getElementById('copy-html');
+  const profileInput = document.getElementById('profile-image');
+
+profileInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Update preview immediately
+      const imgTag = document.querySelector('.profile-img');
+      if (imgTag) {
+        imgTag.src = e.target.result;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
 
   let skills = [];
 
@@ -164,3 +181,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updatePreview();
 });
+
